@@ -150,21 +150,21 @@ void loop() {
   // MQTTにパブリッシュ
   // client.publish(MQTT_BEERS, buffer);
   client.publish("my/beers/scale", String(value).c_str());
-  client.publish("my/beers/temperature", String(t).c_str());
-  client.publish("my/beers/humidity", String(h).c_str());
+  client.publish("my/beers/temperature", String(t,1).c_str());
+  client.publish("my/beers/humidity", String(h,0).c_str());
 
   // 30秒 非同期パブリッシュの待機
-  delay(30000);
+  // delay(30000);
 
   // 10秒スリープ
   // esp_sleep_enable_timer_wakeup(10000 * 1000); // 10000ミリ秒をマイクロ秒に変換
   // 30分スリープ
-  esp_sleep_enable_timer_wakeup(1800000 * 1000); // 1800000ミリ秒をマイクロ秒に変換
+  // esp_sleep_enable_timer_wakeup(1800000 * 1000); // 1800000ミリ秒をマイクロ秒に変換
 
-  Serial.println("Going to sleep now");
-  esp_deep_sleep_start();
+  // Serial.println("Going to sleep now");
+  // esp_deep_sleep_start();
 
   // 30分
-  //delay(300000);
+  delay(300000);
 
 }
