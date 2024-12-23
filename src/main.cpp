@@ -91,8 +91,6 @@ void setup()
 
   scale.begin(DT_PIN, SCK_PIN);
 
-  dht.begin();
-
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED)
   {
@@ -103,6 +101,10 @@ void setup()
 
   client.setServer(mqtt_server, 1883);
   client.setCallback(callback);
+
+  dht.begin();
+  // 30秒 初回の温度測定が正しく行われるまで待機
+  delay(30000);
 }
 
 void loop()
