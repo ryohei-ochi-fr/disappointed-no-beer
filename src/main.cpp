@@ -86,8 +86,9 @@ void setup()
   Serial.printf("%s - run\n", __func__);
   // pinMode(LED_PIN, OUTPUT);
 
-  // pinMode(ADIN_1, ANALOG);
-  // analogSetAttenuation(ADC_11db);
+  pinMode(ADIN_1, ANALOG);
+  //analogSetAttenuation(ADC_0db);
+  analogSetAttenuation(ADC_11db);
 
   scale.begin(DT_PIN, SCK_PIN);
 
@@ -127,6 +128,9 @@ void loop()
   float h = dht.readHumidity();
   Serial.println("Temperature: " + String(t, 1) + "°C\tHumidity: " + String(h, 0) + "%");
 
+  int adv = analogRead(ADIN_1);
+  Serial.println("Voltage: " + String(adv) + "mV");
+
   // digitalWrite(LED_PIN, LOW);
   // Serial.printf("%s - LED_PIN - LOW\n",__func__);
   // delay(HALF_LOOP);
@@ -151,6 +155,7 @@ void loop()
   doc["scale"] = String(value);
   doc["temperature"] = String(t, 1);
   doc["humidity"] = String(h, 0);
+  doc["voltage"] = String(adv);
 
   char buffer[JSON_DOC_SIZE];
   serializeJson(doc, buffer);
@@ -163,6 +168,7 @@ void loop()
   client.publish("my/beers/scale", String(value).c_str());
   client.publish("my/beers/temperature", String(t, 1).c_str());
   client.publish("my/beers/humidity", String(h, 0).c_str());
+  client.publish("my/beers/voltage", String(adv).c_str());
 
   // 30秒 非同期パブリッシュの待機
   // delay(30000);
@@ -177,4 +183,8 @@ void loop()
 
   // 30分
   delay(300000);
+
+  // 10秒
+  //delay(10000);
+
 }
